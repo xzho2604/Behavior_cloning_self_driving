@@ -19,9 +19,9 @@ for line in lines:
     curr_path = './data/IMG/' + filename  #concat as the current file path on aws
 
     
-    img = image.load_img(curr_path,target_size = (32,32))
-    img = image.img_to_array(img)
-#   image = ndimage.imread(curr_path) 
+#    img = image.load_img(curr_path,target_size = (32,32))
+#    img = image.img_to_array(img)
+    img = ndimage.imread(curr_path) 
     images.append(img)
     mesure = float(line[3]) #extract the 4th column control 
     mesures.append(mesure)
@@ -51,7 +51,7 @@ for layer in inception.layers:
 
 #resize the input image to 32,32,3
 cifar_input = Input(shape=(160,320,3))
-resized_input = Lambda(lambda image: tf.image.resize_images(image, (160, 320)))(cifar_input)
+#resized_input = Lambda(lambda image: tf.image.resize_images(image, (160, 320)))(cifar_input)
 inp = inception(cifar_input)
 
 x = GlobalAveragePooling2D()(inp)
