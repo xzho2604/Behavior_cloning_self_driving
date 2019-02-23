@@ -50,9 +50,9 @@ for layer in inception.layers:
     layer.trainable = False
 
 #resize the input image to 32,32,3
-cifar_input = Input(shape=(32,32,3))
+cifar_input = Input(shape=(160,320,3))
 resized_input = Lambda(lambda image: tf.image.resize_images(image, (160, 320)))(cifar_input)
-inp = inception(resized_input)
+inp = inception(cifar_input)
 
 x = GlobalAveragePooling2D()(inp)
 x = Dense(128, activation = 'relu')(x)
@@ -64,9 +64,9 @@ model.compile(optimizer='Adam', loss='mse', metrics=['accuracy'])
 
 #model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(160,320,3))) #crop the input image
 #model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(160,320,3))) #normalise the input images
-model.fit(X_train, y_train, validation_split = 0.2, shuffle = True,verbose=1,epochs = 10)
+model.fit(X_train, y_train, validation_split = 0.2, shuffle = True,verbose=1,epochs = 7)
 
-model.save('model.h5')
+model.save('model2.h5')
 
 
 
