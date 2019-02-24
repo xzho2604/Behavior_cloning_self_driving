@@ -1,4 +1,5 @@
 import csv
+import csv
 from scipy import ndimage
 import numpy as np
 from keras.preprocessing import image
@@ -38,40 +39,47 @@ X_train = images
 y_train = mesures
 
 from keras.models import Sequential ,Model
-from keras.layers import Flatten, Dense, GlobalAveragePooling2D
-from keras.layers import Lambda,Input
+from keras.layers import Flatten, Dense, GlobalAveragePooling2D,Lambda,Input,Cropping2D,Conv2D,Dropout
 from keras.applications.inception_v3 import InceptionV3
 import tensorflow as tf
 
-inception = InceptionV3(weights='imagenet', include_top=False,input_shape = (160,320,3))
+inception = InceptionV3(weights='imagenet', include_top=False,input_shape = (75,320,3))
+inception.layers.pop()
+inception.layers.pop()
+inception.layers.pop()
 
 #freeze all the layers
 for layer in inception.layers:
     layer.trainable = False
 
-#resize the input image to 32,32,3
-cifar_input = Input(shape=(160,320,3))
-#resized_input = Lambda(lambda image: tf.image.resize_images(image, (160, 320)))(cifar_input)
-inp = inception(cifar_input)
+input_tensor = Input(shape=(160,320,3))
+crop_layer = Cropping2D(cropping = ((60,25),(0,0)))(input_tensor) #add cropping layer to the input
+print("crop_laeyr shape :", crop_layer.shape)
+#resize_layer = Lambda(lambda image: tf.image.resize_images(image, (75, 75)),input_shape=(75,320))(crop_layer) #add resize layer to 32,32,3
+#norm_layer =Lambda(lambda x: x/255.0 -0.5)(crop_layer) #normalise all the images
 
-x = GlobalAveragePooling2D()(inp)
-x = Dense(128, activation = 'relu')(x)
-x = Dense(32)(x)
+
+#resized_input = Lambda(lambda image: tf.image.resize_images(image, (160, 320)))(cifar_input)
+inp = inception(crop_layer)
+
+#x = GlobalAveragePooling2D()(inp)
+x = Flatten()(inp)
+x = Dense(512, activation = 'relu')(x)
+x = Dropout(0.5)(x)
+x = Dense(256, activation = 'relu')(x)
+x = Dropout(0.5)(x)
+x = Dense(128,activation = 'relu')(x)
+x = Dropout(0.5)(x)
+x = Dense(10,activation = 'relu')(x)
 predictions = Dense(1)(x)
 
-model = Model(inputs=cifar_input, outputs=predictions)
+model = Model(inputs=input_tensor, outputs=predictions)
 model.compile(optimizer='Adam', loss='mse', metrics=['accuracy'])
 
 #model.add(Cropping2D(cropping=((50,20), (0,0)), input_shape=(160,320,3))) #crop the input image
 #model.add(Lambda(lambda x: (x / 255.0) - 0.5, input_shape=(160,320,3))) #normalise the input images
-model.fit(X_train, y_train, validation_split = 0.2, shuffle = True,verbose=1,epochs = 7)
+model.fit(X_train, y_train, validation_split = 0.2, shuffle = True,verbose=1,epochs = 5)
 
-model.save('model2.h5')
-
-
-
-
-
-
-
+print(model.summary())
+model.save('inception.h5')
 
