@@ -64,9 +64,9 @@ Layer (type)                 Output Shape              Param #
 =================================================================
 -----------------------------------------------------------------
 |input_2 (InputLayer)      |   (None, 160, 320, 3)     |  0      |
-------------------------------------------------------------------
-________________________________________________________________
-cropping2d_1 (Cropping2D)    (None, 75, 320, 3)        0
+|cropping2d_1 (Cropping2D)  |  (None, 75, 320, 3)       | 0       |
+-----------------------------------------------------------------
+
 _________________________________________________________________
 inception_v3 (Model)         (None, 1, 8, 2048)        21802784
 _________________________________________________________________
@@ -199,10 +199,14 @@ To capture good driving behavior, I first recorded two laps on track one using c
 ![alt text](centre.jpg)
 
 I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to how to recover if really close to the lane line.
-![alt text](left.jpg) ![alt text](right.jpg)
+
+![alt text](left.jpg) 
+
+![alt text](right.jpg)
 
 
 To augment the data sat, I drove the car from the opposite direction of the track as you can see that the original track was left bias , right now this lap is right bias:
+
 ![alt text](aug.jpg)
 
 
