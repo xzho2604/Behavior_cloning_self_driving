@@ -54,51 +54,141 @@ The model.py file contains the code for training and saving the convolution neur
 
 #### 1. An appropriate model architecture has been employed
 
-My model consists of a convolution neural network with 3x3 filter sizes and depths between 32 and 128 (model.py lines 18-24) 
+I have used the Inception NN as below:
+I have added a cropping layer in the fron the NN as well as some fully connected layer by the end.
+it turns out that this does not works very as we will discuss this later.
+This is the first approach for the model architecture(end I used Navidia NN mentioned later)
 
-The model includes RELU layers to introduce nonlinearity (code line 20), and the data is normalized in the model using a Keras lambda layer (code line 18). 
+
+Layer (type)                 Output Shape              Param #
+=================================================================
+input_2 (InputLayer)         (None, 160, 320, 3)       0
+_________________________________________________________________
+cropping2d_1 (Cropping2D)    (None, 75, 320, 3)        0
+_________________________________________________________________
+inception_v3 (Model)         (None, 1, 8, 2048)        21802784
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 16384)             0
+_________________________________________________________________
+dense_1 (Dense)              (None, 512)               8389120
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 512)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 256)               131328
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 256)               0
+_________________________________________________________________
+dense_3 (Dense)              (None, 128)               32896
+_________________________________________________________________
+dropout_3 (Dropout)          (None, 128)               0
+_________________________________________________________________
+dense_4 (Dense)              (None, 10)                1290
+_________________________________________________________________
+dense_5 (Dense)              (None, 1)                 11
+=================================================================
+Total params: 30,357,429
+Trainable params: 8,554,645
+Non-trainable params: 21,802,784
+
+
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
+I have trained the NN 10 epoch time and it turns out that the cost around 5 epoch time would not change much , so I have called an early stop at epoch time of 5 as regulation mechanism.
 
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer default parametre and the epoch time was set at 5 and it turns out to the the sweet spot in turns of the performance as well as training time
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
-
-For details about how I created the training data, see the next section. 
+The Training data consists of different driving styles:
+1. Keep in the middle of the lane as much as posssible 4 labs
+2. Recover from the side of the lane swabbling 2 labs
+3. Smooth driving 3 labs
+4. The other drection of the lane same process as above repeat
 
 ### Model Architecture and Training Strategy
 
 #### 1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
+My first attempt was to use the inception network with the tranfer learninig, and remove the top and add some conv layers and then 3 more fully connected layers.
+I have freezed the training parametre of the inception previous layers to take the advantage of the low level features.
+However it turns out that the data overfits significantly there is a big difference between training data and validation data.
+The training data for ineception network are mostly the real world images while the traininig and testing image that we use in this project are from the 3D simulation, so they are from the different distribution.
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+So my approach was to train the network from stracth , since this training set is very different from the inception network and I have got pretty decent training sets, about 18000 pics, I decicde to use Navidia Network structure as describe above.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+By using this network and traing from stratch eliminate the problem of overfiting and has achieve bring the trainnig cost as well as validation cost down to a reasonable level, as it performs smoothly in the simulation.
 
-To combat the overfitting, I modified the model so that ...
 
-Then I ... 
-
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 #### 2. Final Model Architecture
+Layer (type)                 Output Shape              Param #
+=================================================================
+cropping2d_1 (Cropping2D)    (None, 90, 320, 3)        0
+_________________________________________________________________
+conv2d_1 (Conv2D)            (None, 43, 158, 24)       1824
+_________________________________________________________________
+batch_normalization_1 (Batch (None, 43, 158, 24)       96
+_________________________________________________________________
+activation_1 (Activation)    (None, 43, 158, 24)       0
+_________________________________________________________________
+conv2d_2 (Conv2D)            (None, 20, 77, 36)        21636
+_________________________________________________________________
+batch_normalization_2 (Batch (None, 20, 77, 36)        144
+_________________________________________________________________
+activation_2 (Activation)    (None, 20, 77, 36)        0
+_________________________________________________________________
+conv2d_3 (Conv2D)            (None, 8, 37, 48)         43248
+_________________________________________________________________
+batch_normalization_3 (Batch (None, 8, 37, 48)         192
+_________________________________________________________________
+activation_3 (Activation)    (None, 8, 37, 48)         0
+_________________________________________________________________
+conv2d_4 (Conv2D)            (None, 6, 35, 64)         27712
+_________________________________________________________________
+batch_normalization_4 (Batch (None, 6, 35, 64)         256
+_________________________________________________________________
+activation_4 (Activation)    (None, 6, 35, 64)         0
+_________________________________________________________________
+conv2d_5 (Conv2D)            (None, 4, 33, 64)         36928
+_________________________________________________________________
+batch_normalization_5 (Batch (None, 4, 33, 64)         256
+_________________________________________________________________
+activation_5 (Activation)    (None, 4, 33, 64)         0
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 8448)              0
+_________________________________________________________________
+dense_1 (Dense)              (None, 100)               844900
+_________________________________________________________________
+batch_normalization_6 (Batch (None, 100)               400
+_________________________________________________________________
+activation_6 (Activation)    (None, 100)               0
+_________________________________________________________________
+dense_2 (Dense)              (None, 50)                5050
+_________________________________________________________________
+batch_normalization_7 (Batch (None, 50)                200
+_________________________________________________________________
+activation_7 (Activation)    (None, 50)                0
+_________________________________________________________________
+dense_3 (Dense)              (None, 10)                510
+_________________________________________________________________
+batch_normalization_8 (Batch (None, 10)                40
+_________________________________________________________________
+activation_8 (Activation)    (None, 10)                0
+_________________________________________________________________
+dense_4 (Dense)              (None, 1)                 11
+=================================================================
+Total params: 983,403
+Trainable params: 982,611
+Non-trainable params: 792
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
-![alt text][image1]
+![alt text](navida.png)
 
 #### 3. Creation of the Training Set & Training Process
 
