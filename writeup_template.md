@@ -113,62 +113,37 @@ By using this network and traing from stratch eliminate the problem of overfitin
 
 
 #### 2. Final Model Architecture
-Layer (type)                 Output Shape              Param #
-=================================================================
-cropping2d_1 (Cropping2D)    (None, 90, 320, 3)        0
-_________________________________________________________________
-conv2d_1 (Conv2D)            (None, 43, 158, 24)       1824
-_________________________________________________________________
-batch_normalization_1 (Batch (None, 43, 158, 24)       96
-_________________________________________________________________
-activation_1 (Activation)    (None, 43, 158, 24)       0
-_________________________________________________________________
-conv2d_2 (Conv2D)            (None, 20, 77, 36)        21636
-_________________________________________________________________
-batch_normalization_2 (Batch (None, 20, 77, 36)        144
-_________________________________________________________________
-activation_2 (Activation)    (None, 20, 77, 36)        0
-_________________________________________________________________
-conv2d_3 (Conv2D)            (None, 8, 37, 48)         43248
-_________________________________________________________________
-batch_normalization_3 (Batch (None, 8, 37, 48)         192
-_________________________________________________________________
-activation_3 (Activation)    (None, 8, 37, 48)         0
-_________________________________________________________________
-conv2d_4 (Conv2D)            (None, 6, 35, 64)         27712
-_________________________________________________________________
-batch_normalization_4 (Batch (None, 6, 35, 64)         256
-_________________________________________________________________
-activation_4 (Activation)    (None, 6, 35, 64)         0
-_________________________________________________________________
-conv2d_5 (Conv2D)            (None, 4, 33, 64)         36928
-_________________________________________________________________
-batch_normalization_5 (Batch (None, 4, 33, 64)         256
-_________________________________________________________________
-activation_5 (Activation)    (None, 4, 33, 64)         0
-_________________________________________________________________
-flatten_1 (Flatten)          (None, 8448)              0
-_________________________________________________________________
-dense_1 (Dense)              (None, 100)               844900
-_________________________________________________________________
-batch_normalization_6 (Batch (None, 100)               400
-_________________________________________________________________
-activation_6 (Activation)    (None, 100)               0
-_________________________________________________________________
-dense_2 (Dense)              (None, 50)                5050
-_________________________________________________________________
-batch_normalization_7 (Batch (None, 50)                200
-_________________________________________________________________
-activation_7 (Activation)    (None, 50)                0
-_________________________________________________________________
-dense_3 (Dense)              (None, 10)                510
-_________________________________________________________________
-batch_normalization_8 (Batch (None, 10)                40
-_________________________________________________________________
-activation_8 (Activation)    (None, 10)                0
-_________________________________________________________________
-dense_4 (Dense)              (None, 1)                 11
-=================================================================
+
+|Layer (type)       |Output Shape             |Param # |
+| ------------- |:-------------:| -----:|
+|cropping2d_1 (Cropping2D)   | (None, 90, 320, 3)   |     0     |
+|conv2d_1 (Conv2D)           | (None, 43, 158, 24)  |     1824  |
+|batch_normalization_1 (Batch| (None, 43, 158, 24)  |     96    |
+|activation_1 (Activation)   | (None, 43, 158, 24)  |     0     |
+|conv2d_2 (Conv2D)           | (None, 20, 77, 36)   |     21636 |
+|batch_normalization_2 (Batch| (None, 20, 77, 36)   |     144   |
+|activation_2 (Activation)   | (None, 20, 77, 36)   |     0     |
+|conv2d_3 (Conv2D)           | (None, 8, 37, 48)    |     43248 |
+|batch_normalization_3 (Batch| (None, 8, 37, 48)    |     192   |
+|activation_3 (Activation)   | (None, 8, 37, 48)    |     0     |
+|conv2d_4 (Conv2D)           | (None, 6, 35, 64)    |     27712 |
+|batch_normalization_4 (Batch| (None, 6, 35, 64)    |     256   |
+|activation_4 (Activation)   | (None, 6, 35, 64)    |     0     |
+|conv2d_5 (Conv2D)           | (None, 4, 33, 64)    |     36928 |
+|batch_normalization_5 (Batch| (None, 4, 33, 64)    |     256   |
+|activation_5 (Activation)   | (None, 4, 33, 64)    |     0     |
+|flatten_1 (Flatten)         | (None, 8448)         |     0     |
+|dense_1 (Dense)             | (None, 100)          |     844900|
+|batch_normalization_6 (Batch| (None, 100)          |     400   |
+|activation_6 (Activation)   | (None, 100)          |     0     |
+|dense_2 (Dense)             | (None, 50)           |     5050  |
+|batch_normalization_7 (Batch| (None, 50)           |     200   |
+|activation_7 (Activation)   | (None, 50)           |     0     |
+|dense_3 (Dense)             | (None, 10)           |     510   |
+|batch_normalization_8 (Batch| (None, 10)           |     40    |
+|activation_8 (Activation)   | (None, 10)           |     0     |
+|dense_4 (Dense)             | (None, 1)            |     11    |
+
 Total params: 983,403
 Trainable params: 982,611
 Non-trainable params: 792
@@ -186,9 +161,7 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 * I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to how to recover if really close to the lane line.
 
-![alt text](left.jpg) 
-
-![alt text](right.jpg)
+![alt text < ](left.jpg)  ![alt text ><](right.jpg)
 
 
 * To augment the data sat, I drove the car from the opposite direction of the track as you can see that the original track was left bias , right now this lap is right bias:
