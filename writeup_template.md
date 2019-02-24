@@ -58,13 +58,14 @@ I have used the Inception NN as below:
 I have added a cropping layer in the fron the NN as well as some fully connected layer by the end.
 it turns out that this does not works very as we will discuss this later.
 This is the first approach for the model architecture(end I used Navidia NN mentioned later)
+|Layer (type)       |Output Shape             |Param # |
+| ------------- |:-------------:| -----:|
+| input_2 (InputLayer)      | None, 160, 320, 3) | 0 |
+|inception_v3 (Model)       | (None, 1, 8, 2048) |    |    21802784
 
 
-Layer (type)                 Output Shape              Param #
-=================================================================
------------------------------------------------------------------
-|input_2 (InputLayer)      |   (None, 160, 320, 3)     |  0      |
-|cropping2d_1 (Cropping2D)  |  (None, 75, 320, 3)       | 0       |
+
+                            
 -----------------------------------------------------------------
 
 _________________________________________________________________
@@ -194,18 +195,18 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 #### 3. Creation of the Training Set & Training Process
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+* To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
 ![alt text](centre.jpg)
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to how to recover if really close to the lane line.
+* I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to how to recover if really close to the lane line.
 
 ![alt text](left.jpg) 
 
 ![alt text](right.jpg)
 
 
-To augment the data sat, I drove the car from the opposite direction of the track as you can see that the original track was left bias , right now this lap is right bias:
+* To augment the data sat, I drove the car from the opposite direction of the track as you can see that the original track was left bias , right now this lap is right bias:
 
 ![alt text](aug.jpg)
 
