@@ -62,7 +62,7 @@ This is the first approach for the model architecture(end I used Navidia NN ment
 
 Layer (type)                 Output Shape              Param #
 =================================================================
-input_2 (InputLayer)         (None, 160, 320, 3)       0
+|input_2 (InputLayer)      |   (None, 160, 320, 3)     |  0
 _________________________________________________________________
 cropping2d_1 (Cropping2D)    (None, 75, 320, 3)        0
 _________________________________________________________________
@@ -188,32 +188,23 @@ Non-trainable params: 792
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
-![alt text](navida.png)
+![alt text](navida_nn.png)
 
 #### 3. Creation of the Training Set & Training Process
 
 To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
 
-![alt text][image2]
+![alt text](centre.jpg)
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to how to recover if really close to the lane line.
+![alt text](left.jpg)
+![alt text](right.jpg)
 
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+To augment the data sat, I drove the car from the opposite direction of the track as you can see that the original track was left bias , right now this lap is right bias:
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+![alt text](aug.jpg)
+
+
+So I combine the opposite direction driving data with the original data to create the whole training set.
+Then I shuffle the data and split 20% for the validation set and feed into the NN.
