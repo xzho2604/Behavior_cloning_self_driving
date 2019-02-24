@@ -58,6 +58,7 @@ I have used the Inception NN as below:
 I have added a cropping layer in the fron the NN as well as some fully connected layer by the end.
 it turns out that this does not works very as we will discuss this later.
 This is the first approach for the model architecture(end I used Navidia NN mentioned later)
+
 |Layer (type)       |Output Shape             |Param # |
 | ------------- |:-------------:| -----:|
 | input_2 (InputLayer)      | None, 160, 320, 3) | 0 |
